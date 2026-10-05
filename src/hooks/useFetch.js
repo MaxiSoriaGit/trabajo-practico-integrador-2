@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
 const BASE_URL = 'http://localhost:3000/api';
 
 export const useFetch = (url) => {
@@ -6,11 +7,8 @@ export const useFetch = (url) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      setIsLoading(true);
-      setError(null);
-
       const response = await fetch(`${BASE_URL}${url}`, {
         credentials: 'include',
       });
@@ -19,16 +17,18 @@ export const useFetch = (url) => {
 
       const result = await response.json();
       setData(result);
+      setError(null);
     } catch (e) {
       setError(e.message);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [url]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchData();
-  }, [url]);
+  }, [fetchData]);
 
   return { data, isLoading, error };
 };
