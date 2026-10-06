@@ -1,9 +1,7 @@
+import { AppRouter } from './router/AppRouter';
+
 function App() {
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-100">
-      <h1 className="text-3xl font-bold text-slate-800">Trabajo Práctico Integrador N° II</h1>
-    </main>
-  )
+  return <AppRouter />;
 }
 
-export default App
+export default App;
